@@ -2,9 +2,12 @@
 
 @interface ViewController ()
 
-@property (assign, nonatomic) double firstValue;
-@property (assign, nonatomic) double secondValue;
-@property (assign, nonatomic) BOOL   valueWasEntered;
+@property (assign, nonatomic) double value;
+@property (assign, nonatomic) BOOL   wasValueEntered;
+@property (assign, nonatomic) BOOL   isAdd;
+@property (assign, nonatomic) BOOL   isSub;
+@property (assign, nonatomic) BOOL   isMul;
+@property (assign, nonatomic) BOOL   isDiv;
 
 @end
 
@@ -13,9 +16,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.firstValue = 0.f;
-    self.secondValue = 0.f;
-    self.valueWasEntered = NO;
+    self.value = 0.f;
+    self.wasValueEntered = NO;
+    self.isAdd = NO;
+    self.isSub = NO;
+    self.isMul = NO;
+    self.isDiv = NO;
     
     [self.resultLabel setText:@"0"];
     [self.lastActionLabel setText:@""];
@@ -29,13 +35,26 @@
 
 
 - (IBAction)equalAction:(id)sender {
+    if (self.isAdd) {
+        self.value += [self.resultLabel.text doubleValue];
+        self.resultLabel.text = [NSString stringWithFormat:@"%f", self.value];
+    } else if (self.isSub) {
+        self.value -= [self.resultLabel.text doubleValue];
+        self.resultLabel.text = [NSString stringWithFormat:@"%f", self.value];
+    } else if (self.isMul) {
+        self.value *= [self.resultLabel.text doubleValue];
+        self.resultLabel.text = [NSString stringWithFormat:@"%f", self.value];
+    } else if (self.isDiv) {
+        self.value /= [self.resultLabel.text doubleValue];
+        self.resultLabel.text = [NSString stringWithFormat:@"%f", self.value];
+    }
 }
 
 
 - (IBAction)clearAction:(id)sender {
     self.resultLabel.text = @"0";
     self.lastActionLabel.text = @"";
-    self.valueWasEntered = NO;
+    self.wasValueEntered = NO;
 }
 
 
@@ -43,7 +62,7 @@
     NSString *point = @".";
     if (![self.resultLabel.text containsString:point]) {
         self.resultLabel.text = [self.resultLabel.text stringByAppendingString:point];
-        self.valueWasEntered = YES;
+        self.wasValueEntered = YES;
     }
 }
 
@@ -61,16 +80,16 @@
 - (void)digitAction:(id)sender {
     const NSInteger ZERO_CODE = 48;
     
-    if (!self.valueWasEntered) {
+    if (!self.wasValueEntered) {
         self.resultLabel.text = @"";
-        self.valueWasEntered = YES;
+        self.wasValueEntered = YES;
     }
     
     if ([self.resultLabel.text length] == 9) {
         return;
     }
     
-    if (self.valueWasEntered && [self.resultLabel.text length] == 1) {
+    if (self.wasValueEntered && [self.resultLabel.text length] == 1) {
         if ([self.resultLabel.text characterAtIndex:0] == ZERO_CODE) {
             self.resultLabel.text = @"";
         }
