@@ -48,6 +48,16 @@
 }
 
 
+- (IBAction)changeSignAction:(id)sender {
+    NSString *minus = @"-";
+    if ([self.resultLabel.text containsString:minus]) {
+        self.resultLabel.text = [self.resultLabel.text substringFromIndex:1];
+    } else {
+        self.resultLabel.text = [minus stringByAppendingString:self.resultLabel.text];
+    }
+}
+
+
 - (void)digitAction:(id)sender {
     const NSInteger ZERO_CODE = 48;
     
@@ -60,11 +70,10 @@
         return;
     }
     
-    if (self.valueWasEntered &&
-        [self.resultLabel.text length] == 1 &&
-        [self.resultLabel.text characterAtIndex:0] == ZERO_CODE) {
-        
-        return;
+    if (self.valueWasEntered && [self.resultLabel.text length] == 1) {
+        if ([self.resultLabel.text characterAtIndex:0] == ZERO_CODE) {
+            self.resultLabel.text = @"";
+        }
     }
     
     NSString *enteredDigit = [NSString stringWithFormat:@"%ld", [sender tag]];

@@ -9,6 +9,7 @@
 - (IBAction)equalAction:(id)sender;
 - (IBAction)clearAction:(id)sender;
 - (IBAction)pointAction:(id)sender;
+- (IBAction)changeSignAction:(id)sender;
 
 @end
 
