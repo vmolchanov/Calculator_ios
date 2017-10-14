@@ -2,9 +2,9 @@
 
 @interface ViewController ()
 
-@property (assign, nonatomic) double    firstValue;
-@property (assign, nonatomic) double    secondValue;
-@property (assign, nonatomic) BOOL      valueWasEntered;
+@property (assign, nonatomic) double firstValue;
+@property (assign, nonatomic) double secondValue;
+@property (assign, nonatomic) BOOL   valueWasEntered;
 
 @end
 
@@ -40,14 +40,17 @@
 
 
 - (IBAction)pointAction:(id)sender {
-    if (![self.resultLabel.text containsString:@"."]) {
-        self.resultLabel.text = [self.resultLabel.text stringByAppendingString:@"."];
+    NSString *point = @".";
+    if (![self.resultLabel.text containsString:point]) {
+        self.resultLabel.text = [self.resultLabel.text stringByAppendingString:point];
         self.valueWasEntered = YES;
     }
 }
 
 
 - (void)digitAction:(id)sender {
+    const NSInteger ZERO_CODE = 48;
+    
     if (!self.valueWasEntered) {
         self.resultLabel.text = @"";
         self.valueWasEntered = YES;
@@ -59,7 +62,7 @@
     
     if (self.valueWasEntered &&
         [self.resultLabel.text length] == 1 &&
-        [self.resultLabel.text characterAtIndex:0] == 48) {
+        [self.resultLabel.text characterAtIndex:0] == ZERO_CODE) {
         
         return;
     }
