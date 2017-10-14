@@ -39,6 +39,14 @@
 }
 
 
+- (IBAction)pointAction:(id)sender {
+    if (![self.resultLabel.text containsString:@"."]) {
+        self.resultLabel.text = [self.resultLabel.text stringByAppendingString:@"."];
+        self.valueWasEntered = YES;
+    }
+}
+
+
 - (void)digitAction:(id)sender {
     if (!self.valueWasEntered) {
         self.resultLabel.text = @"";
