@@ -7,6 +7,7 @@
 
 - (IBAction)digitAction:(id)sender;
 - (IBAction)equalAction:(id)sender;
+- (IBAction)clearAction:(id)sender;
 
 @end
 
