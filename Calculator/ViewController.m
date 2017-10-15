@@ -25,18 +25,18 @@
 - (void)setInitialValues {
     self.firstValue = 0.f;
     self.secondValue = 0.f;
-    self.wasValueEntered = NO;
-    [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:NO equalAs:NO];
+    [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:NO equalAs:NO valueEnteredAs:NO];
     self.resultLabel.text = @"0";
 }
 
 
-- (void)setFlagAddAs:(BOOL)addFlag subAs:(BOOL)subFlag mulAs:(BOOL)mulFlag divAs:(BOOL)divFlag equalAs:(BOOL)equalFlag {
+- (void)setFlagAddAs:(BOOL)addFlag subAs:(BOOL)subFlag mulAs:(BOOL)mulFlag divAs:(BOOL)divFlag equalAs:(BOOL)equalFlag valueEnteredAs:(BOOL) valueEnteredFlag {
     self.isAdd = addFlag;
     self.isSub = subFlag;
     self.isMul = mulFlag;
     self.isDiv = divFlag;
     self.isEqual = equalFlag;
+    self.wasValueEntered = valueEnteredFlag;
 }
 
 
@@ -89,29 +89,25 @@
 
 
 - (IBAction)addAction:(id)sender {
-    [self setFlagAddAs:YES subAs:NO mulAs:NO divAs:NO equalAs:NO];
-    self.wasValueEntered = NO;
+    [self setFlagAddAs:YES subAs:NO mulAs:NO divAs:NO equalAs:NO valueEnteredAs:NO];
     self.firstValue = [self.resultLabel.text doubleValue];
 }
 
 
 - (IBAction)subAction:(id)sender {
-    [self setFlagAddAs:NO subAs:YES mulAs:NO divAs:NO equalAs:NO];
-    self.wasValueEntered = NO;
+    [self setFlagAddAs:NO subAs:YES mulAs:NO divAs:NO equalAs:NO valueEnteredAs:NO];
     self.firstValue = [self.resultLabel.text doubleValue];
 }
 
 
 - (IBAction)mulAction:(id)sender {
-    [self setFlagAddAs:NO subAs:NO mulAs:YES divAs:NO equalAs:NO];
-    self.wasValueEntered = NO;
+    [self setFlagAddAs:NO subAs:NO mulAs:YES divAs:NO equalAs:NO valueEnteredAs:NO];
     self.firstValue = [self.resultLabel.text doubleValue];
 }
 
 
 - (IBAction)divAction:(id)sender {
-    [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:YES equalAs:NO];
-    self.wasValueEntered = NO;
+    [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:YES equalAs:NO valueEnteredAs:NO];
     self.firstValue = [self.resultLabel.text doubleValue];
 }
 
