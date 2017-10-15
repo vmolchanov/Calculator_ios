@@ -242,6 +242,9 @@
                                         <state key="normal" title="%">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="percentAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xHd-Rm-Rui"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33X-wp-6LQ" userLabel="Plus button">
                                         <rect key="frame" x="282" y="190" width="93" height="94"/>

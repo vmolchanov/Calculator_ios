@@ -14,6 +14,7 @@
 - (IBAction)subAction:(id)sender;
 - (IBAction)mulAction:(id)sender;
 - (IBAction)divAction:(id)sender;
+- (IBAction)percentAction:(id)sender;
 
 @end
 

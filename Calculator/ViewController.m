@@ -112,6 +112,12 @@
 }
 
 
+- (IBAction)percentAction:(id)sender {
+    double value = [self.resultLabel.text doubleValue] / 100;
+    self.resultLabel.text = [NSString stringWithFormat:@"%f", value];
+}
+
+
 - (void)digitAction:(id)sender {
     if (!self.wasValueEntered) {
         self.wasValueEntered = YES;
