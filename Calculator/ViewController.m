@@ -2,12 +2,14 @@
 
 @interface ViewController ()
 
-@property (assign, nonatomic) double value;
+@property (assign, nonatomic) double firstValue;
+@property (assign, nonatomic) double secondValue;
 @property (assign, nonatomic) BOOL   wasValueEntered;
 @property (assign, nonatomic) BOOL   isAdd;
 @property (assign, nonatomic) BOOL   isSub;
 @property (assign, nonatomic) BOOL   isMul;
 @property (assign, nonatomic) BOOL   isDiv;
+@property (assign, nonatomic) BOOL   isEqual;
 
 @end
 
@@ -16,15 +18,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.value = 0.f;
+    [self setInitialValues];
+}
+
+
+- (void)setInitialValues {
+    self.firstValue = 0.f;
+    self.secondValue = 0.f;
     self.wasValueEntered = NO;
-    self.isAdd = NO;
-    self.isSub = NO;
-    self.isMul = NO;
-    self.isDiv = NO;
-    
-    [self.resultLabel setText:@"0"];
-    [self.lastActionLabel setText:@""];
+    [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:NO equalAs:NO];
+    self.resultLabel.text = @"0";
+}
+
+
+- (void)setFlagAddAs:(BOOL)addFlag subAs:(BOOL)subFlag mulAs:(BOOL)mulFlag divAs:(BOOL)divFlag equalAs:(BOOL)equalFlag {
+    self.isAdd = addFlag;
+    self.isSub = subFlag;
+    self.isMul = mulFlag;
+    self.isDiv = divFlag;
+    self.isEqual = equalFlag;
 }
 
 
@@ -35,26 +47,26 @@
 
 
 - (IBAction)equalAction:(id)sender {
-    if (self.isAdd) {
-        self.value += [self.resultLabel.text doubleValue];
-        self.resultLabel.text = [NSString stringWithFormat:@"%f", self.value];
-    } else if (self.isSub) {
-        self.value -= [self.resultLabel.text doubleValue];
-        self.resultLabel.text = [NSString stringWithFormat:@"%f", self.value];
-    } else if (self.isMul) {
-        self.value *= [self.resultLabel.text doubleValue];
-        self.resultLabel.text = [NSString stringWithFormat:@"%f", self.value];
-    } else if (self.isDiv) {
-        self.value /= [self.resultLabel.text doubleValue];
-        self.resultLabel.text = [NSString stringWithFormat:@"%f", self.value];
+    if (!self.isEqual) {
+        if (!self.isAdd && !self.isSub && !self.isMul && !self.isDiv) {
+            return;
+        }
+        
+        self.secondValue = self.wasValueEntered ? [self.resultLabel.text doubleValue] : self.firstValue;
+        self.isEqual = YES;
     }
+    
+    if (self.isAdd) self.firstValue += self.secondValue;
+    if (self.isSub) self.firstValue -= self.secondValue;
+    if (self.isMul) self.firstValue *= self.secondValue;
+    if (self.isDiv) self.firstValue /= self.secondValue;
+    
+    self.resultLabel.text = [NSString stringWithFormat:@"%f", self.firstValue];
 }
 
 
 - (IBAction)clearAction:(id)sender {
-    self.resultLabel.text = @"0";
-    self.lastActionLabel.text = @"";
-    self.wasValueEntered = NO;
+    [self setInitialValues];
 }
 
 
@@ -62,37 +74,63 @@
     NSString *point = @".";
     if (![self.resultLabel.text containsString:point]) {
         self.resultLabel.text = [self.resultLabel.text stringByAppendingString:point];
-        self.wasValueEntered = YES;
     }
 }
 
 
 - (IBAction)changeSignAction:(id)sender {
-    NSString *minus = @"-";
-    if ([self.resultLabel.text containsString:minus]) {
+    NSString *sign = @"-";
+    if ([self.resultLabel.text containsString:sign]) {
         self.resultLabel.text = [self.resultLabel.text substringFromIndex:1];
     } else {
-        self.resultLabel.text = [minus stringByAppendingString:self.resultLabel.text];
+        self.resultLabel.text = [sign stringByAppendingString:self.resultLabel.text];
     }
 }
 
 
+- (IBAction)addAction:(id)sender {
+    [self setFlagAddAs:YES subAs:NO mulAs:NO divAs:NO equalAs:NO];
+    self.wasValueEntered = NO;
+    self.firstValue = [self.resultLabel.text doubleValue];
+}
+
+
+- (IBAction)subAction:(id)sender {
+    [self setFlagAddAs:NO subAs:YES mulAs:NO divAs:NO equalAs:NO];
+    self.wasValueEntered = NO;
+    self.firstValue = [self.resultLabel.text doubleValue];
+}
+
+
+- (IBAction)mulAction:(id)sender {
+    [self setFlagAddAs:NO subAs:NO mulAs:YES divAs:NO equalAs:NO];
+    self.wasValueEntered = NO;
+    self.firstValue = [self.resultLabel.text doubleValue];
+}
+
+
+- (IBAction)divAction:(id)sender {
+    [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:YES equalAs:NO];
+    self.wasValueEntered = NO;
+    self.firstValue = [self.resultLabel.text doubleValue];
+}
+
+
 - (void)digitAction:(id)sender {
-    const NSInteger ZERO_CODE = 48;
-    
     if (!self.wasValueEntered) {
-        self.resultLabel.text = @"";
         self.wasValueEntered = YES;
+        self.resultLabel.text = @"";
     }
-    
-    if ([self.resultLabel.text length] == 9) {
+    if ([sender tag] == 0 &&
+        ([self.resultLabel.text isEqualToString:@"0"] || [self.resultLabel.text isEqualToString:@"-0"])) {
+        
         return;
     }
-    
-    if (self.wasValueEntered && [self.resultLabel.text length] == 1) {
-        if ([self.resultLabel.text characterAtIndex:0] == ZERO_CODE) {
-            self.resultLabel.text = @"";
-        }
+    if ([sender tag] != 0 && [self.resultLabel.text isEqualToString:@"0"]) {
+        self.resultLabel.text = @"";
+    }
+    if ([sender tag] != 0 && [self.resultLabel.text isEqualToString:@"-0"]) {
+        self.resultLabel.text = @"-";
     }
     
     NSString *enteredDigit = [NSString stringWithFormat:@"%ld", [sender tag]];

@@ -10,6 +10,10 @@
 - (IBAction)clearAction:(id)sender;
 - (IBAction)pointAction:(id)sender;
 - (IBAction)changeSignAction:(id)sender;
+- (IBAction)addAction:(id)sender;
+- (IBAction)subAction:(id)sender;
+- (IBAction)mulAction:(id)sender;
+- (IBAction)divAction:(id)sender;
 
 @end
 
