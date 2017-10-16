@@ -66,6 +66,9 @@
         [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:NO equalAs:NO valueEnteredAs:NO];
     }
     
+    self.lastActionLabel.text = [NSString stringWithFormat:@"%@ %@ =",
+                                 self.lastActionLabel.text,
+                                 self.resultLabel.text];
     self.resultLabel.text = [NSString stringWithFormat:@"%g", self.firstValue];
 }
 
@@ -138,6 +141,7 @@
 
 
 - (IBAction)percentAction:(id)sender {
+    self.lastActionLabel.text = [NSString stringWithFormat:@"%@%% =", self.resultLabel.text];
     double value = [self.resultLabel.text doubleValue] / 100;
     self.resultLabel.text = [NSString stringWithFormat:@"%g", value];
 }
