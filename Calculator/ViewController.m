@@ -27,6 +27,7 @@
     self.secondValue = 0.f;
     [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:NO equalAs:NO valueEnteredAs:NO];
     self.resultLabel.text = @"0";
+    self.lastActionLabel.text = @"";
 }
 
 
@@ -61,7 +62,11 @@
     if (self.isMul) self.firstValue *= self.secondValue;
     if (self.isDiv) self.firstValue /= self.secondValue;
     
-    self.resultLabel.text = [NSString stringWithFormat:@"%g", self.firstValue]; // change
+    if (!sender) {
+        [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:NO equalAs:NO valueEnteredAs:NO];
+    }
+    
+    self.resultLabel.text = [NSString stringWithFormat:@"%g", self.firstValue];
 }
 
 
@@ -89,26 +94,46 @@
 
 
 - (IBAction)addAction:(id)sender {
+    if (self.isAdd) {
+        [self equalAction:nil];
+    }
+    
     [self setFlagAddAs:YES subAs:NO mulAs:NO divAs:NO equalAs:NO valueEnteredAs:NO];
     self.firstValue = [self.resultLabel.text doubleValue];
+    self.lastActionLabel.text = [NSString stringWithFormat:@"%g +", self.firstValue];
 }
 
 
 - (IBAction)subAction:(id)sender {
+    if (self.isSub) {
+        [self equalAction:nil];
+    }
+    
     [self setFlagAddAs:NO subAs:YES mulAs:NO divAs:NO equalAs:NO valueEnteredAs:NO];
     self.firstValue = [self.resultLabel.text doubleValue];
+    self.lastActionLabel.text = [NSString stringWithFormat:@"%g -", self.firstValue];
 }
 
 
 - (IBAction)mulAction:(id)sender {
+    if (self.isMul) {
+        [self equalAction:nil];
+    }
+    
     [self setFlagAddAs:NO subAs:NO mulAs:YES divAs:NO equalAs:NO valueEnteredAs:NO];
     self.firstValue = [self.resultLabel.text doubleValue];
+    self.lastActionLabel.text = [NSString stringWithFormat:@"%g x", self.firstValue];
 }
 
 
 - (IBAction)divAction:(id)sender {
+    if (self.isDiv) {
+        [self equalAction:nil];
+    }
+    
     [self setFlagAddAs:NO subAs:NO mulAs:NO divAs:YES equalAs:NO valueEnteredAs:NO];
     self.firstValue = [self.resultLabel.text doubleValue];
+    self.lastActionLabel.text = [NSString stringWithFormat:@"%g /", self.firstValue];
 }
 
 
