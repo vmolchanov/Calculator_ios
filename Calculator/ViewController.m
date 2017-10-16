@@ -61,7 +61,7 @@
     if (self.isMul) self.firstValue *= self.secondValue;
     if (self.isDiv) self.firstValue /= self.secondValue;
     
-    self.resultLabel.text = [NSString stringWithFormat:@"%f", self.firstValue];
+    self.resultLabel.text = [NSString stringWithFormat:@"%g", self.firstValue]; // change
 }
 
 
@@ -114,7 +114,7 @@
 
 - (IBAction)percentAction:(id)sender {
     double value = [self.resultLabel.text doubleValue] / 100;
-    self.resultLabel.text = [NSString stringWithFormat:@"%f", value];
+    self.resultLabel.text = [NSString stringWithFormat:@"%g", value];
 }
 
 
